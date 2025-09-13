@@ -1,17 +1,13 @@
-from rest_framework import generics
+from rest_framework import viewsets, generics
 from .models import Event, EventException
 from .serializers import EventSerializer, EventExceptionSerializer
 
-# Event endpoints
-class EventListCreateView(generics.ListCreateAPIView):
-    queryset = Event.objects.all()
+# Event endpoints (full CRUD with one router)
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all().order_by('start_time')
     serializer_class = EventSerializer
 
-class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-
-# EventException endpoints
+# EventException endpoints (leave as generics for now)
 class EventExceptionListCreateView(generics.ListCreateAPIView):
     queryset = EventException.objects.all()
     serializer_class = EventExceptionSerializer

@@ -1,9 +1,12 @@
-from django.urls import path
-from .views import EventListCreateView, EventDetailView, EventExceptionListCreateView, EventExceptionDetailView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import EventViewSet, EventExceptionListCreateView, EventExceptionDetailView
+
+router = DefaultRouter()
+router.register(r'events', EventViewSet)
 
 urlpatterns = [
-    path('events/', EventListCreateView.as_view(), name='event-list-create'),
-    path('events/<int:pk>/', EventDetailView.as_view(), name='event-detail'),
+    path('', include(router.urls)),
     path('exceptions/', EventExceptionListCreateView.as_view(), name='exception-list-create'),
     path('exceptions/<int:pk>/', EventExceptionDetailView.as_view(), name='exception-detail'),
 ]
